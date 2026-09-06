@@ -1,0 +1,315 @@
+@keyframes word-reveal {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-word-reveal {
+  animation: word-reveal 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes heading-title-in {
+  from {
+    transform: translateY(15px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes heading-line-in {
+  from {
+    transform: translateX(50%) scaleX(0);
+  }
+
+  to {
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+@keyframes heading-value-in {
+  from {
+    transform: translateY(10px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-heading-title {
+  animation: heading-title-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 500ms both;
+}
+
+.animate-heading-line {
+  animation: heading-line-in 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-heading-value {
+  animation: heading-value-in 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+
+
+
+
+
+
+
+/* bot animation */
+
+/* =========================================================
+   WATCHER BOT
+   ========================================================= */
+
+@keyframes bot-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+/* Blink */
+
+@keyframes bot-blink {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+
+  45%,
+  55% {
+    transform: scaleY(0.08);
+  }
+}
+
+[data-blink="true"] .bot-eye {
+  animation: bot-blink 120ms ease-in-out;
+}
+
+/* Mouth */
+
+.bot-mouth {
+  transition:
+    d 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bot-mouth-happy {
+  d: path("M57 76 Q75 95 93 76");
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .bot-eye,
+  .bot-mouth {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* project works  */
+@keyframes project-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(70px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.project-row {
+  animation: project-reveal 700ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes popupTitle {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popupContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popupVideo {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes popupTag {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-popup-title {
+  animation:
+    popupTitle
+    500ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.animate-popup-content {
+  animation:
+    popupContent
+    450ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    80ms
+    both;
+}
+
+.animate-popup-video {
+  animation:
+    popupVideo
+    600ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+.animate-popup-tag {
+  animation:
+    popupTag
+    400ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+/* Respect users who prefer reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .project-row,
+  .animate-popup-title,
+  .animate-popup-content,
+  .animate-popup-video,
+  .animate-popup-tag {
+    animation: none !important;
+  }
+}
+/* project works  */
+
+
+
+
+
+
+
+
+/* header css */
+.toggle-switch {
+  position: relative;
+  width: 50px;
+  height: 25px;
+  --light: #d8dbe0;
+  --dark: #28292c;
+  --link: rgb(27, 129, 112);
+  --link-hover: rgb(24, 94, 82);
+}
+
+.switch-label {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  background-color: var(--dark);
+  border-radius: 25px;
+  cursor: pointer;
+  border: 3px solid var(--dark);
+}
+
+.checkbox {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.checkbox:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
+  box-shadow: inset 12px -4px 0px 0px var(--light);
+  background-color: var(--dark);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.checkbox:checked ~ .slider::before {
+  -webkit-transform: translateX(50px);
+  -ms-transform: translateX(50px);
+  transform: translateX(50px);
+  background-color: var(--dark);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+/* header css */
