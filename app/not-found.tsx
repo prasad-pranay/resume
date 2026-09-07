@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowUpRight, Home, Sparkles } from "lucide-react";
 import Cursor from "@/components/Cursor";
+import Image from "next/image";
 
 export default function NotFound() {
   return (
@@ -19,20 +20,28 @@ export default function NotFound() {
       <div className="relative z-10 flex min-h-screen flex-col items-center justify-center text-center">
 
         {/* Status */}
-        <div className="mb-5 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-bold shadow">
+        {/* <div className="mb-5 flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-bold shadow">
           <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
           404 · Page not found
-        </div>
+        </div> */}
 
         {/* GIF */}
         <div className="relative">
           <div className="absolute inset-0 -z-10 scale-75 rounded-full bg-purple-100 blur-3xl" />
 
-          <img
+          {/* <img
             src="/404.gif"
             alt="Lost"
             className="h-[28vh] max-h-72 w-auto object-contain transition duration-500 hover:scale-105"
-          />
+          /> */}
+          <Image
+  src="/404.gif"
+  alt="Lost"
+  width={300}
+  loading="eager"
+  height={300}
+  className="h-[28vh] max-h-72 w-auto object-contain transition duration-500 hover:scale-105"
+/>
         </div>
 
         {/* Heading */}

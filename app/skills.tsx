@@ -138,9 +138,9 @@ export default function Skills() {
     <section
       ref={sectionRef}
       id="skills"
-      className="relative bg-[var(--background)] px-5 sm:px-0 text-[#111111] w-full pt-60 sm:pt-0"
+      className="relative bg-[var(--background)] text-[#111111] w-full pt-60 sm:pt-0"
     >
-      <div className="mx-auto md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full px-0 lg:py-36 lg:px-0 lg:py-0">
+      <div className="lg:py-36 lg:py-0">
 
         {/* =====================================================
             HEADER
@@ -168,21 +168,20 @@ export default function Skills() {
 
           {/* Heading + description */}
 
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_0.4fr]">
 
             {/* Heading */}
 
             <h2
               className="
-                max-w-3xl
-                bricolage-grotesque
-                text-[clamp(3.7rem,7vw,6.8rem)]
-                md:text-8xl
-                lg:text-[clamp(3.7rem,7vw,6.8rem)]
-                font-light
-                leading-[0.88]
-                tracking-[-0.065em]
-                text-[var(--foreground)]
+                text-7xl
+          sm:text-8xl
+          leading-[0.85]
+          tracking-[-0.065em]
+          bricolage-grotesque
+          text-[var(--foreground)] 
+          text-center 
+          sm:text-left
                 text-center sm:text-left
               "
             >

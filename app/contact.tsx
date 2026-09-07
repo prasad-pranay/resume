@@ -4,25 +4,44 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useRef, useState } from 'react'
 import emailjs from "emailjs-com";
 
-const Contact = () => {
+interface ContactProps {
+  setNotification: React.Dispatch<React.SetStateAction<any>>;
+}
+const Contact = ({setNotification}:ContactProps) => {
   const [msgScreen, setMsgScreen] = useState(false)
   const [isCopied,setIsCopied] =  useState(false)
   const copyText = async (text: string) => {
   await navigator.clipboard.writeText(text);
 };
+function sendNotification(text:string){
+  setNotification((prev:any) => [
+  ...prev,
+  {
+    id: crypto.randomUUID(),
+    message: text,
+  },
+]);
+}
 
   return (
-    <section id='contact' className="flex flex-col lg:flex-row md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full py-20 justify-between px-5 sm:px-0 lg:gap-0 gap-10 mt-40 sm:mt-0">
-      <p className="text-7xl md:text-8xl lg:text-7xl md:text-center lg:text-left xl:text-9xl bricolage-grotesque leading-[0.8] text-center sm:text-left">
+    <section id='contact' className="flex flex-col xl:flex-row py-20 justify-between lg:gap-0 gap-10 mt-40 sm:mt-0">
+      <p className="
+      text-7xl
+          sm:text-8xl
+          leading-[0.85]
+          tracking-[-0.065em]
+          bricolage-grotesque
+          text-[var(--foreground)] 
+          text-center
+          xl:text-left 
+          ">
         <HoverWord text="Let's build" />
-        <br />
         <HoverWord text="something" />
-        <br />
         <span className="text-[#ff5a36]"><HoverWord text="that ships." /></span>
       </p>
 
-      <div className="flex flex-col justify-between relative md:mt-10 lg:mt-0 lg:gap-0 gap-10">
-        <div className="flex justify-between">
+      <div className="flex flex-col justify-between relative md:mt-10 xl:mt-0 xl:gap-0 gap-10">
+        <div className="flex justify-evenly xl:justify-between">
           <motion.svg onClick={()=>window.open("https://www.instagram.com/pranayy.c3/","_blank")} initial={{y:20,opacity:0}} whileInView={{y:0,opacity:1}} viewport={{once:false}} transition={{delay:1,duration:1}} viewBox="0 0 15.2 15.2" fill="none" xmlns="http://www.w3.org/2000/svg" className="active:scale-80 size-15 target-hand transition-all duration-150 hover:scale-120">
             <g transform="translate(-4.9, -4.4)">
               <path clipRule="evenodd" d="M15.5 5h-6a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4" className='stroke-[var(--foreground)]' strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
@@ -191,6 +210,7 @@ onMouseOut={()=>{
               onSubmit={(value) => {
                 console.log(value);
               }}
+              sendNotification={sendNotification}
             />
           </motion.div>}
         </AnimatePresence>
@@ -213,28 +233,45 @@ import { X, ArrowUp } from "lucide-react";
 interface MinimalFormProps {
   onClose?: () => void;
   onSubmit?: (value: string) => void;
+  sendNotification:(text:string)=> void;
 }
 
 function MinimalForm({
   onClose,
   onSubmit,
+  sendNotification,
 }: MinimalFormProps) {
 
-  const form_element = useRef(null)
+  const form_element = useRef<HTMLFormElement>(null)
 
 const handleSubmit = (e:any) => {
     e.preventDefault();
             emailjs.sendForm("service_47zjwto", "template_q8qk90n", form_element.current!, "4t_xVcQnm2u6_Gvxo").then(
         (result) => {
           console.log(result.text);
+          sendNotification("Sent Your Message Succeessfully!")
         },
         (error) => {
+          sendNotification("Unable to Send your message check console for details!")
           console.log(error.text);
         }
       );
 
+      setTimeout(() => {
+       if (form_element.current != null) {
+          form_element.current.reset();
+          setTxtarea("")
+      }
+      }, 1000);
+
   };
 
+  const [txtarea,setTxtarea] = useState("")
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if(e.target.value.length<=400){
+      setTxtarea(e.target.value);
+    }
+};
   return (
     <motion.div
       initial={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -282,14 +319,15 @@ const handleSubmit = (e:any) => {
         {/* Textarea */}
         <textarea
           autoFocus
+          value={txtarea}
+          onChange={handleChange}
           name="contact-name-msg"
           rows={5}
           placeholder="Say hello, or share an idea..."
           className="
             block w-full resize-none
             bg-transparent
-            m-10
-            px-5 pb-20 pt-5
+            p-15 pb-20 pt-15
             text-[15px] leading-6
             text-gray-900
             placeholder:text-gray-400
@@ -299,7 +337,8 @@ const handleSubmit = (e:any) => {
         />
 
         {/* Bottom action */}
-        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-end">
+        <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+          <p className='text-[var(--foreground)] text-xs opacity-50 font-light ml-10'>{txtarea.length}/400</p>
           <motion.button
             type="submit"
             whileHover={{ y: -1 }}

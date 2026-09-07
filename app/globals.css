@@ -36,6 +36,9 @@ body {
 .inter {
   font-family: "inter", sans-serif;
 }
+.indie {
+  font-family: cursive;
+}
 
 
   /* @theme inline {
@@ -67,7 +70,20 @@ body {
     transform: rotate(8deg);
   }
 }
+@keyframes notificationProgress {
+  from {
+    transform: scaleX(1);
+  }
 
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

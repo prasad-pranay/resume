@@ -79,7 +79,7 @@ export default function About() {
       id="about"
       className="relative overflow-hidden text-[#111111] w-full mt-40"
     >
-      <div className="mx-auto px-5 sm:px-0 md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full py-28 sm:py-36 lg:py-40">
+      <div className="w-full py-28 sm:py-36 lg:py-40">
 
         {/* =====================================================
             MAIN GRID
@@ -122,30 +122,23 @@ export default function About() {
 
             <h2
               className="
-              sm:mt-0 mt-8
+                sm:mt-0 mt-8
                 max-w-[700px]
-                text-[clamp(3.7rem,7vw,6.8rem)]
-                lg:text-[clamp(3.7rem,7vw,6.8rem)]
-                md:text-8xl
-                font-light
-                leading-[0.9]
-                tracking-[-0.065em]
-                text-[var(--foreground)]
-                bricolage-grotesque
+                text-7xl
+          sm:text-8xl
+          leading-[0.85]
+          tracking-[-0.065em]
+          bricolage-grotesque
+          text-[var(--foreground)] 
+          text-center 
+          sm:text-left
               "
             >
 
-              <HoverWord text="I " />
-              <HoverWord text="build " />
-              <br className="hidden lg:block" />
-
-            <span className="text-[#ff5a36] sm:ml-0 ml-3">
-              <HoverWord text="digital" />
-            </span>
-              <br />
-
+              <HoverWord text="I build " />
+              <HoverWord text="digital" className="text-[#ff5a36]" />
               <HoverWord text="experiences" />
-              <HoverWord text="." className="text-[#ff5a36]" />
+              <HoverWord text=". " className="text-[#ff5a36]" />
 
             </h2>
 

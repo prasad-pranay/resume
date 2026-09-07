@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import ChatBotScreen from "./chatbotscreen";
+import BotNotification from "./notification";
 
 interface Point {
   x: number;
@@ -33,9 +34,16 @@ const BOT_FACE_Y = 0.32;
 // COMPONENT
 // ---------------------------------------------------------
 
+type Notification = {
+  id: string;
+  message: string;
+};
+
 interface WatcherBotProps {
   chatScreen: boolean;
   setChatScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  // notification: Notification[];
+  // setNotification: React.Dispatch<React.SetStateAction<any>>;
 }
 const WatcherBot = ({chatScreen,setChatScreen}:WatcherBotProps) => {
   const botRef = useRef<HTMLDivElement>(null);
@@ -445,6 +453,7 @@ useEffect(() => {
           will-change-transform
         "
       >
+       
 <motion.svg
         initial={{scale:0}}
       animate={{scale:1}}

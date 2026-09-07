@@ -444,8 +444,8 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
         flex min-h-screen w-full
         flex-col sm:justify-center
         overflow-hidden
-        px-6 pt-45 lg:pt-0 xl:pt-24 pb-20
-        lg:mt-10 lg:mx-auto lg:max-w-4xl xl:max-w-7xl md:max-w-3xl md:px-0
+        pt-45 lg:pt-0 xl:pt-24 pb-20
+        lg:mt-10 
       "
     >
       {/* <div> {size.width} × {size.height} </div> */}
@@ -478,7 +478,8 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
             text="Full Stack"
             className="
               bricolage-grotesque
-              text-[clamp(4rem,13vw,9rem)]
+              text-7xl
+              sm:text-[clamp(4rem,13vw,9rem)]
               leading-[0.82]
               tracking-[-0.055em]
             "
@@ -500,7 +501,8 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
         <h2
           className="
             bricolage-grotesque
-            text-[clamp(4rem,13vw,9rem)]
+            text-7xl
+              sm:text-[clamp(4rem,13vw,9rem)]
             leading-[0.82]
             tracking-[-0.055em]
             text-[var(--foreground)]

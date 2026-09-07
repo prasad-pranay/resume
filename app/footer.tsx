@@ -27,7 +27,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="w-full max-w-7xl mx-auto px-6 sm:px-8 py-8 user-select-none">
+    <footer className="w-full py-8 user-select-none">
       <div className="h-px w-full bg-gray-200 mb-7 xl:mb-15" />
 
       <div className="flex flex-row items-start sm:items-center justify-between gap-5 text-sm lg:pb-8">

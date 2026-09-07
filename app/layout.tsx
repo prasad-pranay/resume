@@ -3,13 +3,13 @@ import type { Metadata, Viewport } from "next";
 import {
   Bricolage_Grotesque,
   Encode_Sans_Expanded,
-  Inter,
+  Inter
 } from "next/font/google";
 
 import "./globals.css";
 
-import SmoothScroll from "@/components/SmoothScroll";
-import CustomScrollbar from "@/components/Scrollbar";
+// import SmoothScroll from "@/components/SmoothScroll";
+// import CustomScrollbar from "@/components/Scrollbar";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -30,6 +30,7 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
 
 const siteUrl = "https://resume-pranay.vercel.app";
 export const metadata: Metadata = {
@@ -210,8 +211,6 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData), }} /> 
       </head>
       <body className="flex min-h-full flex-col">
-        <SmoothScroll />
-        <CustomScrollbar />
         {children}
       </body>
     </html>

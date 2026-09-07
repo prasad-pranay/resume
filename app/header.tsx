@@ -50,25 +50,19 @@ const Header = ({setChatScreen}:HeaderProps) => {
           top-0
           z-[1000]
           w-full
-          px-5
-          xl:px-0
         "
       >
         <section
           className="
             encode-sans
-            mx-auto
             flex
-            w-full
             items-center
             justify-between
             gap-4
             pt-8
             pb-5
-            md:max-w-3xl
-            lg:max-w-4xl
-            xl:max-w-7xl
             xl:pt-10
+            mx-5 sm:mx-10 md:mx-15 lg:mx-20 xl:mx-25 2xl:mx-30
           "
         >
           {/* ───────────────── LOGO ───────────────── */}
@@ -88,13 +82,13 @@ const Header = ({setChatScreen}:HeaderProps) => {
           >
             <span
               className="
-                relative
-                z-10
-                transition-colors
-                duration-300
-                group-hover:text-[#ff5a36]
+              relative
+              z-10
+              transition-colors
+              duration-300
+              group-hover:text-[#ff5a36]
               "
-            >
+              >
               PranayPrasad
             </span>
 

@@ -564,7 +564,7 @@ const projects: Project[] = [
     image: "/curease.png",
     video: "/curease.mp4",
     description:
-    "An AI-powered health-tech platform for symptom analysis, nutrition insights, medical report tracking, and doctor-patient interaction.",
+    "A healthcare platform designed to help people better understand their health, from analyzing symptoms and medical reports to getting nutrition insights and connecting with doctors.",
     technologies: ["React", "Three.js", "GSAP"],
     github: "https://github.com/prasad-pranay/curease",
     details: "/projects/kinetic",
@@ -577,7 +577,7 @@ const projects: Project[] = [
     image: "/notelm.png",
     video: "/notelm.mp4",
     description:
-      "A full-stack AI learning platform that transforms study materials into interactive chats, quizzes, live sessions, and personalized learning analytics using RAG and LLMs.",
+      "A learning platform that turns study materials into interactive conversations, quizzes, live learning sessions, and personalized insights to help students learn more effectively.",
     technologies: ["React", "Three.js", "GSAP"],
     github: "https://github.com/prasad-pranay/NoteLM",
     details: "/projects/kinetic",
@@ -590,7 +590,7 @@ const projects: Project[] = [
     image: "/reviewlens.png",
     video: "/reviewlens.mp4",
     description:
-    "An AI-powered platform that analyzes product sentiment and compares brands to uncover public perception and market positioning.",
+    "An AI-powered platform that analyzes what people think about products and brands, helping businesses understand customer opinions and how they compare in the market.",
     technologies: ["React", "WebGL", "GSAP"],
     github: "https://github.com/yourusername/reviewlens",
     details: "/projects/aether",
@@ -603,7 +603,7 @@ const projects: Project[] = [
    image: "/portfolio.png",
    video: "/swello.mp4",
    description:
-     "Next.js portfolio with a Gemini + RAG chatbot for answering questions about my work and experience.",
+     "An interactive portfolio with an AI chatbot that helps visitors learn about my projects, skills, experience, and background through natural conversations.",
    technologies: ["Next.js", "Tailwind", "Motion"],
    github: "https://github.com/prasad-pranay/resume",
    details: "/projects/nova",
@@ -925,7 +925,7 @@ const ProjectShowcase: React.FC = () => {
       : null;
 
   return (
-    <section id='projects' className="relative w-full md:px-0 px-6 sm:py-20 md:max-w-3xl lg:max-w-4xl xl:max-w-7xl">
+    <section id='projects' className="relative w-full sm:py-20">
       {/* =====================================
           HEADER
       ====================================== */}
@@ -945,17 +945,14 @@ const ProjectShowcase: React.FC = () => {
         className="
           text-7xl
           sm:text-8xl
-          font-bold
           leading-[0.85]
           tracking-[-0.065em]
+          bricolage-grotesque
           text-[var(--foreground)]
         "
       >
         <HoverWord text="Projects" />
-
-        <span className="text-[#ff5a36]">
-          <HoverWord text="." />
-        </span>
+          <HoverWord text="." className="text-[#ff5a36]" />
       </h2>
 
     </div>
@@ -1274,8 +1271,9 @@ const ProjectShowcase: React.FC = () => {
             className="
               mt-7
               max-w-[500px]
-              text-lg
-            leading-6
+              text-sm
+              sm:text-lg
+            sm:leading-6
             font-light
             -tracking-[0.01rem]
             text-[var(--foreground)]/45

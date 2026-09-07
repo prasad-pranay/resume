@@ -173,7 +173,7 @@ export default function Education() {
         id="education"
         className="relative text-[#111111] w-full px-5 sm:px-0 pt-30 sm:pt-0"
       >
-        <div className="md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full mx-auto">
+        <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
             {/* =================================================
@@ -209,28 +209,19 @@ export default function Education() {
 
                     <h2
                       className="
-                        text-[clamp(4rem,6vw,6.5rem)]
-                        md:text-8xl
-                        lg:text-[clamp(4rem,6vw,6.5rem)]
-                        xl:text-8xl
-                        font-light
-                        leading-[0.88]
-                        tracking-[-0.06em]
-                        bricolage-grotesque
-                        text-[var(--foreground)]
+                        text-7xl
+          sm:text-8xl
+          leading-[0.85]
+          tracking-[-0.065em]
+          bricolage-grotesque
+          text-[var(--foreground)] 
+          text-center 
+          sm:text-left
                       "
                     >
                       <HoverWord text="Where I " />
                       <HoverWord text="learned" />
                         <HoverWord text="to build." className="italic text-[#ff5a36]" />
-                      {/* <HoverWord text="Where I " />
-                      <br className="block md:hidden lg:block" />
-                      <HoverWord text="learned" />
-                      <br />
-
-                      <span className="bricolage-grotesque italic text-[#ff5a36] ">
-                        <HoverWord text="to build." />
-                      </span> */}
                     </h2>
 
                     {/* Description */}
