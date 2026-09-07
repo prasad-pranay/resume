@@ -925,7 +925,7 @@ const ProjectShowcase: React.FC = () => {
       : null;
 
   return (
-    <section id='projects' className="relative w-full lg:px-0 px-6 sm:py-20 lg:max-w-7xl">
+    <section id='projects' className="relative w-full md:px-0 px-6 sm:py-20 md:max-w-3xl lg:max-w-4xl xl:max-w-7xl">
       {/* =====================================
           HEADER
       ====================================== */}

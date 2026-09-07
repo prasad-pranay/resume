@@ -140,7 +140,7 @@ export default function Skills() {
       id="skills"
       className="relative bg-[var(--background)] px-5 sm:px-0 text-[#111111] w-full pt-60 sm:pt-0"
     >
-      <div className="mx-auto max-w-7xl w-full px-0 sm:py-28 sm:px-10 sm:py-36 lg:px-0 lg:py-40">
+      <div className="mx-auto md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full px-0 lg:py-36 lg:px-0 lg:py-0">
 
         {/* =====================================================
             HEADER
@@ -177,6 +177,8 @@ export default function Skills() {
                 max-w-3xl
                 bricolage-grotesque
                 text-[clamp(3.7rem,7vw,6.8rem)]
+                md:text-8xl
+                lg:text-[clamp(3.7rem,7vw,6.8rem)]
                 font-light
                 leading-[0.88]
                 tracking-[-0.065em]
@@ -184,18 +186,21 @@ export default function Skills() {
                 text-center sm:text-left
               "
             >
-              <HoverWord text="I build" />
+              <HoverWord text="I build "/>
+              <HoverWord text="full-stack " className="italic text-[#ff5a36] block"/>
+              <HoverWord text="experiences."/>
+              {/* <HoverWord text="I build" />
 
               <br />
 
-              <span className="bricolage-grotesque italic text-[#ff5a36]">
+              <span className="italic text-[#ff5a36]">
                 
               <HoverWord text="full-stack" />
               </span>
 
               <br />
 
-              <HoverWord text="experiences." />
+              <HoverWord text="experiences." /> */}
             </h2>
 
 

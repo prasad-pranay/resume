@@ -155,7 +155,8 @@ const data = await res.json();
         sm:bottom-5 sm:right-5 bottom-0 right-0
         flex
         h-[100dvh] w-[100dvw]
-        sm:h-[65dvh] sm:w-[45vw]
+        lg:h-[65dvh] lg:w-[45vw]
+        md:h-[65dvh] md:w-[65vw]
         flex-col
         overflow-hidden
         sm:rounded-[24px]

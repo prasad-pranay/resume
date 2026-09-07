@@ -51,7 +51,7 @@ const Header = ({setChatScreen}:HeaderProps) => {
           z-[1000]
           w-full
           px-5
-          lg:px-0
+          xl:px-0
         "
       >
         <section
@@ -60,13 +60,15 @@ const Header = ({setChatScreen}:HeaderProps) => {
             mx-auto
             flex
             w-full
-            max-w-7xl
             items-center
             justify-between
             gap-4
             pt-8
             pb-5
-            lg:pt-10
+            md:max-w-3xl
+            lg:max-w-4xl
+            xl:max-w-7xl
+            xl:pt-10
           "
         >
           {/* ───────────────── LOGO ───────────────── */}

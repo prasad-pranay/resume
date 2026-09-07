@@ -360,6 +360,7 @@ import HeaderTitle from "@/components/heading";
 import "./allfiles.css";
 import Typewriter from "@/components/typewriter";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 type NavItem = {
   number: any;
@@ -433,6 +434,8 @@ function PortfolioNavigation() {
 }
 
 const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {
+  // const [size, setSize] = useState({ width: 0, height: 0, });
+  // useEffect(() => { setSize({ width: window.innerWidth, height: window.innerHeight, }); }, []);
   return (
     <section
       id="home"
@@ -441,10 +444,11 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
         flex min-h-screen w-full
         flex-col sm:justify-center
         overflow-hidden
-        px-6 pt-45 sm:pt-24 pb-20
-        lg:mt-10 lg:max-w-7xl lg:px-0
+        px-6 pt-45 lg:pt-0 xl:pt-24 pb-20
+        lg:mt-10 lg:mx-auto lg:max-w-4xl xl:max-w-7xl md:max-w-3xl md:px-0
       "
     >
+      {/* <div> {size.width} × {size.height} </div> */}
       {/* Availability */}
       <div className="mb-8 ml-3 flex items-start gap-4 sm:mb-3 sm:items-center">
         <span className="relative mb-8 flex h-2 w-2 items-center justify-center">
@@ -514,7 +518,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
       {/* Description */}
       <p
         className="
-          mt-6 sm:max-w-xl max-w-xs
+          mt-6 md:max-w-xl xl:max-w-xl max-w-xs lg:max-w-lg 
           sm:text-lg text-sm font-light sm:leading-6 leading-5
           tracking-[-0.01rem]
           text-[var(--foreground)]/45

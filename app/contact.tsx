@@ -12,8 +12,8 @@ const Contact = () => {
 };
 
   return (
-    <section id='contact' className="flex flex-col sm:flex-row max-w-7xl w-full py-20 justify-between px-5 sm:px-0 sm:gap-0 gap-10 mt-40 sm:mt-0">
-      <p className="text-7xl sm:text-9xl bricolage-grotesque leading-[0.8] text-center sm:text-left">
+    <section id='contact' className="flex flex-col lg:flex-row md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full py-20 justify-between px-5 sm:px-0 lg:gap-0 gap-10 mt-40 sm:mt-0">
+      <p className="text-7xl md:text-8xl lg:text-7xl md:text-center lg:text-left xl:text-9xl bricolage-grotesque leading-[0.8] text-center sm:text-left">
         <HoverWord text="Let's build" />
         <br />
         <HoverWord text="something" />
@@ -21,7 +21,7 @@ const Contact = () => {
         <span className="text-[#ff5a36]"><HoverWord text="that ships." /></span>
       </p>
 
-      <div className="flex flex-col justify-between relative sm:gap-0 gap-10">
+      <div className="flex flex-col justify-between relative md:mt-10 lg:mt-0 lg:gap-0 gap-10">
         <div className="flex justify-between">
           <motion.svg onClick={()=>window.open("https://www.instagram.com/pranayy.c3/","_blank")} initial={{y:20,opacity:0}} whileInView={{y:0,opacity:1}} viewport={{once:false}} transition={{delay:1,duration:1}} viewBox="0 0 15.2 15.2" fill="none" xmlns="http://www.w3.org/2000/svg" className="active:scale-80 size-15 target-hand transition-all duration-150 hover:scale-120">
             <g transform="translate(-4.9, -4.4)">
@@ -67,7 +67,7 @@ onMouseOut={()=>{
     copyText("prasadpranay2005@gmail.com")
   }}
   className="
-    group relative inline-flex items-center gap-4
+    group relative inline-flex self-center items-center gap-4
     cursor-none target-hand
     rounded-xl
     px-4 py-3

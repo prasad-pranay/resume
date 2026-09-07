@@ -173,20 +173,20 @@ export default function Education() {
         id="education"
         className="relative text-[#111111] w-full px-5 sm:px-0 pt-30 sm:pt-0"
       >
-        <div className="sm:max-w-7xl w-full mx-auto">
+        <div className="md:max-w-3xl lg:max-w-4xl xl:max-w-7xl w-full mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2">
 
             {/* =================================================
                 LEFT SIDE
             ================================================= */}
 
-            <div className="relative lg:h-[220vh]">
-              <div className="lg:sticky lg:top-0 lg:h-screen">
+            <div className="relative lg:h-[220vh] w-full">
+              <div className="lg:sticky lg:top-0 lg:h-screen w-full">
 
                 <div
                   className={`
                     flex h-full items-center
-
+                    w-full
                     transition-all
                     duration-[1200ms]
 
@@ -198,7 +198,7 @@ export default function Education() {
                     }
                   `}
                 >
-                  <div className="max-w-xl sm:py-24 lg:py-0">
+                  <div className="max-w-full sm:py-24 lg:py-0">
 
                     {/* =================================================
                 LABEL
@@ -210,6 +210,9 @@ export default function Education() {
                     <h2
                       className="
                         text-[clamp(4rem,6vw,6.5rem)]
+                        md:text-8xl
+                        lg:text-[clamp(4rem,6vw,6.5rem)]
+                        xl:text-8xl
                         font-light
                         leading-[0.88]
                         tracking-[-0.06em]
@@ -217,14 +220,17 @@ export default function Education() {
                         text-[var(--foreground)]
                       "
                     >
-                      <HoverWord text="Where I" />
-                      <br />
+                      <HoverWord text="Where I " />
+                      <HoverWord text="learned" />
+                        <HoverWord text="to build." className="italic text-[#ff5a36]" />
+                      {/* <HoverWord text="Where I " />
+                      <br className="block md:hidden lg:block" />
                       <HoverWord text="learned" />
                       <br />
 
                       <span className="bricolage-grotesque italic text-[#ff5a36] ">
                         <HoverWord text="to build." />
-                      </span>
+                      </span> */}
                     </h2>
 
                     {/* Description */}
@@ -421,7 +427,7 @@ function EducationItem({
   return (
     <article
       ref={ref}
-      className="relative flex sm:min-h-[100vh] border border-[var(--foreground)] sm:border-none items-center sm:mt-0 mt-20 p-5 rounded"
+      className="relative flex lg:min-h-[100vh] border border-[var(--foreground)] lg:border-none items-center lg:mt-0 mt-20 p-5 rounded"
     >
       {/* Timeline dot */}
       <div

@@ -416,7 +416,7 @@ useEffect(() => {
       style={{transform: heroShow ? `translateY(-${scrollY}px)` : "",transition: "transform 1500ms, bottom 1500ms, right 1500ms"}}
       className={`
         fixed
-        ${heroShow ? "bottom-5 right-1/2 translate-x-1/2 sm:bottom-1/4 sm:right-1/5" :"-bottom-[70px] right-5 sm:right-20"}
+        ${heroShow ? "bottom-5 right-1/2 translate-x-1/2 md:right-50 lg:bottom-20 lg:right-60 xl:bottom-1/4 xl:right-1/5" :"-bottom-[70px] right-5 sm:right-20"}
         z-50
         flex
         flex-row-reverse
