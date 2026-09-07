@@ -140,7 +140,7 @@ export const metadata: Metadata = {
   category: "technology",
 
   verification: {
-    google: "YOUR_GOOGLE_VERIFICATION_CODE",
+    google: "W70tjpbfDBTnk5ujHLot55yIX7abWVqfIdXb8XBwW-8",
   },
 
   formatDetection: {
