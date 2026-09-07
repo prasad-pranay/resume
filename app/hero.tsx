@@ -453,7 +453,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
         </span>
 
         <HeaderTitle
-          title="Available for work"
+          title="Open to opportunities"
           value=""
         />
       </div>
@@ -522,9 +522,11 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
           [animation-delay:1s]
         "
       >
-        <Typewriter text="I build thoughtful digital experiences where clean interfaces,
-        purposeful motion, and solid engineering come together." speed={15} cursor={false} />
+        <Typewriter text="I turn ideas into thoughtful digital experiences —
+from the first line of code to the final interaction." speed={15} cursor={false} />
       </p>
+
+      {/* <p>Gurgaon India</p> */}
 
       {/* Actions */}
       <div
