@@ -566,7 +566,7 @@ const projects: Project[] = [
     description:
     "An AI-powered health-tech platform for symptom analysis, nutrition insights, medical report tracking, and doctor-patient interaction.",
     technologies: ["React", "Three.js", "GSAP"],
-    github: "https://github.com/yourusername/kinetic",
+    github: "https://github.com/prasad-pranay/curease",
     details: "/projects/kinetic",
   },
   {
@@ -592,7 +592,7 @@ const projects: Project[] = [
     description:
     "An AI-powered platform that analyzes product sentiment and compares brands to uncover public perception and market positioning.",
     technologies: ["React", "WebGL", "GSAP"],
-    github: "https://github.com/yourusername/aether",
+    github: "https://github.com/yourusername/reviewlens",
     details: "/projects/aether",
   },
   {
@@ -605,7 +605,7 @@ const projects: Project[] = [
    description:
      "Next.js portfolio with a Gemini + RAG chatbot for answering questions about my work and experience.",
    technologies: ["Next.js", "Tailwind", "Motion"],
-   github: "https://github.com/yourusername/nova",
+   github: "https://github.com/prasad-pranay/resume",
    details: "/projects/nova",
  }, 
 ];

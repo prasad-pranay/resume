@@ -464,7 +464,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
           className="
             bricolage-grotesque
             whitespace-nowrap
-            text-[clamp(5rem,13vw,9rem)]
+            text-[clamp(3rem,13vw,9rem)]
             leading-[0.82]
             tracking-[-0.055em]
             text-[var(--foreground)]
@@ -474,7 +474,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
             text="Full Stack"
             className="
               bricolage-grotesque
-              text-[clamp(5rem,13vw,9rem)]
+              text-[clamp(4rem,13vw,9rem)]
               leading-[0.82]
               tracking-[-0.055em]
             "
@@ -493,10 +493,10 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
 
       {/* Second line */}
       <div className="relative">
-        <h1
+        <h2
           className="
             bricolage-grotesque
-            text-[clamp(5rem,13vw,9rem)]
+            text-[clamp(4rem,13vw,9rem)]
             leading-[0.82]
             tracking-[-0.055em]
             text-[var(--foreground)]
@@ -507,7 +507,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
           <span className="text-[#ff5a36]">
             <HoverWord text="." />
           </span>
-        </h1>
+        </h2>
 
       </div>
 
@@ -547,7 +547,7 @@ const Hero = ({setResumeOpen}:{setResumeOpen:React.Dispatch<React.SetStateAction
           "
         />
 
-        <div className="flex flex-wrap items-center gap-10 py-3 overflow-hidden">
+        <div className="flex flex-wrap items-center gap-5 sm:gap-10 py-3 overflow-hidden">
           {/* View Work */}
           <motion.a
           initial={{x:"-200px"}}

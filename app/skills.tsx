@@ -176,13 +176,12 @@ export default function Skills() {
               className="
                 max-w-3xl
                 bricolage-grotesque
-                sm:text-[clamp(3.7rem,7vw,6.8rem)]
+                text-[clamp(3.7rem,7vw,6.8rem)]
                 font-light
                 leading-[0.88]
                 tracking-[-0.065em]
                 text-[var(--foreground)]
                 text-center sm:text-left
-                text-7xl
               "
             >
               <HoverWord text="I build" />
