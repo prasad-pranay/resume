@@ -5,6 +5,7 @@ import { motion, Variants } from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { scrollTo } from "@/components/SmoothScroll";
 import TextReveal from "@/components/textreveal";
+import AnimatedParagraph from "@/components/textreveal";
 
 type HeroProps = {
   setResumeOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,43 +60,10 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
           flex-col
           items-center
           text-center
+          mt-10
         "
       >
-        {/* =====================================================
-            AVAILABILITY
-        ====================================================== */}
 
-        <motion.div
-          variants={fadeUp}
-          className="
-            m-5
-            flex
-            items-center
-            gap-2
-            rounded-full
-            border1
-            border-[var(--foreground)]/[0.08]1
-            px-3
-            py-1.5
-          "
-        >
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-500/50" />
-
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-green-500" />
-          </span>
-
-          <span
-            className="
-              text-[10px]
-              uppercase
-              tracking-[0.16em]
-              text-[var(--foreground)]/45
-            "
-          >
-            Available for opportunities
-          </span>
-        </motion.div>
 
         {/* =====================================================
             HEADLINE
@@ -115,7 +83,7 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
               text-[var(--foreground)]
             "
           >
-            <HoverWord text="I" />{" "}
+            {/* <HoverWord text="I" />{" "}
             <HoverWord text="design" />{" "}
             <HoverWord text="and" />{" "}
             <HoverWord text="build" />{" "}
@@ -123,7 +91,13 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
             <HoverWord text="experiences" />{" "}
             <HoverWord text="that" />{" "}
             <HoverWord text="feel" />{" "}
-            <HoverWord text="effortless." className="text-[#ff5a36]" />
+            <HoverWord text="effortless." className="text-[#ff5a36]" /> */}
+            <HoverWord text="Somewhere" />{" "}
+            <HoverWord text="between" />{" "}
+            <HoverWord text="design," />{" "}
+            <HoverWord text="code," />{" "}
+            <HoverWord text="and" />{" "}
+            <HoverWord text="curiosity." className="text-[#ff5a36]" />{" "}
           </h1>
         </motion.div>
 
@@ -145,9 +119,15 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
             sm:text-lg
           "
         >
-          Full-stack developer focused on creating thoughtful
+          {/* Full-stack developer focused on creating thoughtful
           digital products through clean design, meaningful
-          interactions, and solid engineering.
+          interactions, and solid engineering. */}
+          <AnimatedParagraph>
+            Full-stack developer, curious enough to build the idea instead of just talking about it.
+          {/* Full-stack developer who enjoys turning ideas into interactive experiences,
+           obsessing over the details, and occasionally spending 
+           three hours on an animation nobody asked for. */}
+          </AnimatedParagraph>
 
         </motion.div>
 
@@ -212,15 +192,16 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
           "
         >
           <a
-             onClick={() => scrollTo("#projects")}
+             onClick={() => scrollTo("#about")}
             className="
               text-[var(--foreground)]/40
               transition-colors
               duration-300
               hover:text-[var(--foreground)]
+              cursor-none target-hand
             "
           >
-            Selected work
+            About Me
           </a>
 
           <span className="h-1 w-1 rounded-full bg-[var(--foreground)]/20" />
@@ -231,6 +212,7 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
               text-[var(--foreground)]/40
               transition-colors
               duration-300
+              cursor-none target-hand
               hover:text-[var(--foreground)]
             "
           >
@@ -292,7 +274,7 @@ const Hero = ({ setResumeOpen }: HeroProps) => {
             text-[var(--foreground)]/30
           "
         >
-          Developer
+          Web Developer
         </div>
       </motion.div>
 

@@ -355,7 +355,7 @@ const WatcherBot = ({
             w-14
             sm:h-[58px]
             sm:w-[58px]
-            cursor-pointer
+            cursor-none target-hand
             items-center
             justify-center
             rounded-full

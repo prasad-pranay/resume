@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { ArrowUp, Mic, X, RefreshCw } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -50,10 +50,12 @@ const initialSuggestions: Suggestion[] = [
 
 interface ChatBotScreenProps {
   setChatScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  initialQuestion:String;
 }
 
 export default function ChatBotScreen({
   setChatScreen,
+  initialQuestion
 }: ChatBotScreenProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [welcomeMessage, setWelcomeMessage] = useState<Message | null>(null);
@@ -71,7 +73,14 @@ export default function ChatBotScreen({
   /* ─────────────────────────────────────────────
   Initial welcome message
   ───────────────────────────────────────────── */
-
+  const hasSentInitialQuestion = useRef(false);
+  useEffect(() => {
+    if(initialQuestion!="" && !hasSentInitialQuestion.current ){
+      hasSentInitialQuestion.current = true;
+      sendMessage(`${initialQuestion}`)
+    }
+  }, [initialQuestion])
+  
   useEffect(() => {
     const loadInitialChat = async () => {
       try {
@@ -180,6 +189,7 @@ export default function ChatBotScreen({
       ]);
     } finally {
       setIsLoadingResponse(false);
+      hasSentInitialQuestion.current = false
     }
 
 

@@ -1,386 +1,1442 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { SetStateAction, useRef, useState } from "react";
+
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+
+import {
+  ArrowUpRight,
+  Cat,
+  Sparkles,
+} from "lucide-react";
+
 import HoverWord from "@/components/hoverword";
 import ScrollReveal from "@/components/textreveal";
 
+/* =========================================================
+COMPONENT
+========================================================= */
+interface ProjectsProps {
+  onAskRica: (question:string)=>void;
+}
+const Projects = ({onAskRica}:ProjectsProps) => {
+const [activeProject, setActiveProject] =
+  useState<Project | null>(null);
 
-const Projects = () => {
-  const [activeProject, setActiveProject] =
-    useState<Project | null>(null);
+  const [isPreviewHovered, setIsPreviewHovered] =
+  useState(false);
 
-  return (
-    <section
-      id="projects"
+const closeTimerRef =
+  useRef<ReturnType<typeof setTimeout> | null>(null);
+
+/* ---------------------------------------------------------
+CURSOR POSITION
+--------------------------------------------------------- */
+
+const mouseX = useMotionValue(-500);
+const mouseY = useMotionValue(-500);
+
+/*
+The spring creates a small delay behind
+the cursor instead of making the preview
+feel stuck directly to it.
+*/
+const previewX = useSpring(mouseX, {
+  stiffness: 200,
+  damping: 28,
+  mass: 0.35,
+});
+
+const previewY = useSpring(mouseY, {
+  stiffness: 200,
+  damping: 28,
+  mass: 0.35,
+});
+
+/* =========================================================
+   PREVIEW SIZE
+========================================================= */
+
+const PREVIEW_WIDTH = 340;
+const PREVIEW_HEIGHT = 390;
+const OFFSET = 24;
+const SCREEN_PADDING = 20;
+
+const updatePreviewPosition = (
+  clientX: number,
+  clientY: number
+) => {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  let nextX = clientX + OFFSET;
+  let nextY = clientY + OFFSET;
+
+  /*
+    -----------------------------------------
+    RIGHT EDGE
+    -----------------------------------------
+  */
+
+  if (
+    nextX + PREVIEW_WIDTH >
+    viewportWidth - SCREEN_PADDING
+  ) {
+    nextX =
+      clientX -
+      PREVIEW_WIDTH -
+      OFFSET;
+  }
+
+  /*
+    -----------------------------------------
+    LEFT EDGE FALLBACK
+    -----------------------------------------
+  */
+
+  if (nextX < SCREEN_PADDING) {
+    nextX = SCREEN_PADDING;
+  }
+
+  /*
+    -----------------------------------------
+    BOTTOM EDGE
+    -----------------------------------------
+  */
+
+  if (
+    nextY + PREVIEW_HEIGHT >
+    viewportHeight - SCREEN_PADDING
+  ) {
+    nextY =
+      clientY -
+      PREVIEW_HEIGHT -
+      OFFSET;
+  }
+
+  /*
+    -----------------------------------------
+    TOP EDGE FALLBACK
+    -----------------------------------------
+  */
+
+  if (nextY < SCREEN_PADDING) {
+    nextY = SCREEN_PADDING;
+  }
+
+  mouseX.set(nextX);
+  mouseY.set(nextY);
+};
+
+/* ---------------------------------------------------------
+IMAGE PARALLAX
+--------------------------------------------------------- */
+
+const imageX = useMotionValue(0);
+const imageY = useMotionValue(0);
+
+const smoothImageX = useSpring(imageX, {
+stiffness: 180,
+damping: 20,
+});
+
+const smoothImageY = useSpring(imageY, {
+stiffness: 180,
+damping: 20,
+});
+
+const cancelClose = () => {
+  if (closeTimerRef.current) {
+    clearTimeout(closeTimerRef.current);
+
+    closeTimerRef.current = null;
+  }
+};
+
+const previewHoveredRef = useRef(false);
+const scheduleClose = () => {
+  cancelClose();
+
+  closeTimerRef.current = setTimeout(() => {
+    if (!previewHoveredRef.current) {
+      setActiveProject(null);
+    }
+  }, 220);
+};
+const handleProjectMouseEnter = (
+  project: Project,
+  event: React.MouseEvent<HTMLDivElement>
+) => {
+  cancelClose();
+
+  setActiveProject(project);
+
+  updatePreviewPosition(
+    event.clientX,
+    event.clientY
+  );
+};
+
+const handleProjectMouseMove = (
+  event: React.MouseEvent<HTMLDivElement>
+) => {
+  /*
+    When interacting with the popup,
+    don't move it away.
+  */
+
+  if (previewHoveredRef.current) {
+    return;
+  }
+
+  updatePreviewPosition(
+    event.clientX,
+    event.clientY
+  );
+};
+
+const handleProjectMouseLeave = () => {
+  scheduleClose();
+};
+
+
+/* ---------------------------------------------------------
+MOUSE MOVE
+--------------------------------------------------------- */
+
+const handleMouseMove = (
+event: React.MouseEvent<HTMLAnchorElement>
+) => {
+/*
+PREVIEW POSITION
+
+```
+  Small offset keeps the preview
+  from sitting directly on the cursor.
+*/
+
+mouseX.set(event.clientX + 28);
+mouseY.set(event.clientY + 28);
+
+/*
+  IMAGE PARALLAX
+
+  Calculates cursor position inside
+  the hovered project row.
+*/
+
+const rect =
+  event.currentTarget.getBoundingClientRect();
+
+const relativeX =
+  (event.clientX - rect.left) / rect.width;
+
+const relativeY =
+  (event.clientY - rect.top) / rect.height;
+
+/*
+  Very subtle movement.
+
+  Keep this small because your portfolio
+  design is minimal.
+*/
+
+imageX.set((relativeX - 0.5) * -14);
+imageY.set((relativeY - 0.5) * -10);
+
+
+};
+
+/* ---------------------------------------------------------
+HOVER START
+--------------------------------------------------------- */
+
+const handleMouseEnter = (
+project: Project,
+event: React.MouseEvent<HTMLAnchorElement>
+) => {
+setActiveProject(project);
+
+
+mouseX.set(event.clientX + 28);
+mouseY.set(event.clientY + 28);
+
+
+};
+
+/* ---------------------------------------------------------
+HOVER END
+--------------------------------------------------------- */
+
+const handleMouseLeave = () => {
+setActiveProject(null);
+
+
+/*
+  Reset image position.
+*/
+
+imageX.set(0);
+imageY.set(0);
+
+
+};
+
+/* =========================================================
+RENDER
+========================================================= */
+
+return ( <section
+   id="projects"
+   className="
+     relative
+     w-full
+     overflow-hidden
+     bg-[var(--background)]
+     px-6
+     py-28
+     sm:px-10
+     sm:py-36
+     lg:px-16
+     xl:px-24
+   "
+ > 
+ <div className="mx-auto w-full max-w-[1500px]">
+
+
+    {/* =====================================================
+        SECTION HEADER
+    ===================================================== */}
+
+    <div
       className="
-        relative
-        w-full
-        bg-[var(--background)]
-        px-6
-        py-28
-        sm:px-10
-        sm:py-36
-        lg:px-16
-        xl:px-24
+        mb-20
+        flex
+        flex-col
+        gap-8
+        sm:mb-28
+        lg:flex-row
+        lg:items-end
+        lg:justify-between
       "
     >
-      <div className="mx-auto w-full max-w-[1500px]">
-        {/* ============================================
-            SECTION HEADER
-        ============================================= */}
+      {/* LEFT */}
 
-        <div
+      <div>
+        <p
           className="
-            mb-20
-            flex
-            flex-col
-            gap-8
-            sm:mb-28
-            lg:flex-row
-            lg:items-end
-            lg:justify-between
+            mb-5
+            text-[10px]
+            font-medium
+            uppercase
+            tracking-[0.18em]
+            text-[var(--foreground)]/35
           "
         >
-          {/* Left */}
+          Selected work
+        </p>
 
-          <div>
-            <p
-              className="
-                mb-5
-                text-[10px]
-                font-medium
-                uppercase
-                tracking-[0.18em]
-                text-[var(--foreground)]/35
-              "
-            >
-              Selected work
-            </p>
-
-            <h2
-              className="
-                max-w-2xl
-                text-5xl
-                font-medium
-                leading-[0.95]
-                tracking-[-0.055em]
-                text-[var(--foreground)]
-                sm:text-6xl
-                lg:text-7xl
-              "
-            >
-              <HoverWord text="Things" />{" "}
-              <HoverWord text="I've" />{" "}
-              <HoverWord text="built." className="text-[#ff5a36]" />
-            </h2>
-          </div>
-
-          {/* Right */}
-
-          <div
-            className="
-              max-w-sm
-              text-sm
-              leading-relaxed
-              text-[var(--foreground)]/45
-              sm:text-base
-            "
-          >
-            <ScrollReveal>
-            A selection of products and experiences
-            I've worked on — from ideas and interfaces
-            to fully functional applications.
-            </ScrollReveal>
-          </div>
-        </div>
-
-        {/* ============================================
-            PROJECT LIST
-        ============================================= */}
-
-        <div
+        <h2
           className="
-            border-t
-            border-[var(--foreground)]/[0.08]
+            max-w-2xl
+            text-5xl
+            font-medium
+            leading-[0.95]
+            tracking-[-0.055em]
+            text-[var(--foreground)]
+            sm:text-6xl
+            lg:text-7xl
           "
         >
-          {projects.map((project) => (
-            <a
-              key={project.number}
-              // href={project.href}
-              onMouseEnter={() =>
-                setActiveProject(project)
-              }
-              onMouseLeave={() =>
-                setActiveProject(null)
-              }
-              className="
-                group
-                relative
-                grid
-                grid-cols-[auto_1fr_auto]
-                items-start
-                gap-6
-                border-b
-                border-[var(--foreground)]/[0.08]
-                py-8
-                transition-colors
-                duration-500
-                sm:gap-10
-                sm:py-10
-              "
-            >
-              {/* Number */}
+          <HoverWord text="Things" />{" "}
+          <HoverWord text="I've" />{" "}
 
-              <span
-                className="
-                  pt-1
-                  text-[10px]
-                  tabular-nums
-                  tracking-[0.1em]
-                  text-[var(--foreground)]/30
-                "
-              >
-                {project.number}
-              </span>
-
-              {/* Main Project Content */}
-
-              <div>
-                {/* Title */}
-
-                <div className="flex items-center gap-4">
-                  <h3
-                    className="
-                      text-2xl
-                      font-medium
-                      text-[var(--foreground)]/75
-                      transition-colors
-                      duration-300
-                      group-hover:text-[var(--foreground)]
-                      sm:text-3xl
-                      lg:text-4xl
-                    "
-                  >
-                    <HoverWord text={project.title} className="tracking-[1px]"/>
-                  </h3>
-
-                  <ArrowUpRight
-                    size={18}
-                    strokeWidth={1.5}
-                    className="
-                      opacity-0
-                      -translate-x-2
-                      translate-y-2
-                      text-[var(--foreground)]/50
-                      transition-all
-                      duration-300
-                      group-hover:translate-x-0
-                      group-hover:translate-y-0
-                      group-hover:opacity-100
-                    "
-                  />
-                </div>
-
-                {/* Description */}
-
-                <div
-                  className="
-                    mt-3
-                    max-w-xl
-                    text-sm
-                    leading-relaxed
-                    text-[var(--foreground)]/40
-                    sm:text-base
-                  "
-                >
-                  <ScrollReveal>
-                  {project.description}
-                  </ScrollReveal>
-                </div>
-
-                {/* Mobile Category */}
-
-                <p
-                  className="
-                    mt-4
-                    text-[10px]
-                    uppercase
-                    tracking-[0.15em]
-                    text-[var(--foreground)]/30
-                    sm:hidden
-                  "
-                >
-                  {project.category}
-                </p>
-              </div>
-
-              {/* Meta */}
-
-              <div
-                className="
-                  hidden
-                  items-center
-                  gap-8
-                  pt-2
-                  text-right
-                  sm:flex
-                "
-              >
-                <span
-                  className="
-                    text-[10px]
-                    uppercase
-                    tracking-[0.15em]
-                    text-[var(--foreground)]/30
-                  "
-                >
-                  {project.category}
-                </span>
-
-                <span
-                  className="
-                    text-[10px]
-                    tabular-nums
-                    tracking-[0.12em]
-                    text-[var(--foreground)]/30
-                  "
-                >
-                  {project.year}
-                </span>
-              </div>
-            </a>
-          ))}
-        </div>
-
-        {/* ============================================
-            FOOTER LINK
-        ============================================= */}
-
-        <div className="mt-12">
-          <a
-            className="
-              group
-              inline-flex
-              items-center
-              gap-3
-              text-sm
-              text-[var(--foreground)]/45
-              transition-colors
-              hover:text-[var(--foreground)]
-            "
-          >
-            View all projects
-
-            <ArrowUpRight
-              size={15}
-              strokeWidth={1.5}
-              className="
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-                group-hover:-translate-y-1
-              "
-            />
-          </a>
-        </div>
+          <HoverWord
+            text="built."
+            className="text-[#ff5a36]"
+          />
+        </h2>
       </div>
 
-      {/* ============================================
-          FLOATING PROJECT PREVIEW
-      ============================================= */}
+      {/* RIGHT */}
 
-      <AnimatePresence>
-        {activeProject && (
-          <motion.div
-            initial={{
-              opacity: 0,
-              scale: 0.96,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-              y: 0,
-            }}
-            exit={{
-              opacity: 0,
-              scale: 0.96,
-              y: 10,
-            }}
-            transition={{
-              duration: 0.35,
-              ease: [0.22, 1, 0.36, 1],
-            }}
+      <div
+        className="
+          max-w-sm
+          text-sm
+          leading-relaxed
+          text-[var(--foreground)]/45
+          sm:text-base
+        "
+      >
+        <ScrollReveal>
+          A selection of products and experiences
+          I've worked on — from ideas and interfaces
+          to fully functional applications.
+        </ScrollReveal>
+      </div>
+    </div>
+
+    {/* =====================================================
+        PROJECT LIST
+    ===================================================== */}
+
+    <div
+      className="
+        border-t
+        border-[var(--foreground)]/[0.08]
+      "
+    >
+      {projects.map((project) => (
+        <div
+          key={project.number}
+
+          // href={project.github || "#"}
+
+  onMouseEnter={(event) =>
+    handleProjectMouseEnter(
+      project,
+      event
+    )
+  }
+  onMouseMove={handleProjectMouseMove}
+  onMouseLeave={handleProjectMouseLeave}
+
+          className="
+            group
+            relative
+            grid
+            cursor-none target-hand
+            grid-cols-[auto_1fr_auto]
+            items-start
+            gap-6
+            border-b
+            border-[var(--foreground)]/[0.08]
+            py-8
+            cursor-none target-hand
+            transition-colors
+            duration-500
+            sm:gap-10
+            sm:py-10
+          "
+        >
+          {/* -----------------------------------------------
+              NUMBER
+          ------------------------------------------------ */}
+
+          <span
             className="
-              pointer-events-none
-              fixed
-              right-[8vw]
-              top-1/2
-              z-50
-              hidden
-              w-[340px]
-              -translate-y-1/2
-              overflow-hidden
-              rounded-2xl
-              border
-              border-[var(--foreground)]/[0.08]
-              bg-[var(--background)]
-              p-2
-              shadow-2xl
-              lg:block
+              pt-1
+              text-[10px]
+              tabular-nums
+              tracking-[0.1em]
+              text-[var(--foreground)]/30
+              transition-colors
+              duration-300
+              group-hover:text-[var(--foreground)]/50
             "
           >
+            {project.number}
+          </span>
+
+          {/* -----------------------------------------------
+              MAIN CONTENT
+          ------------------------------------------------ */}
+
+          <div>
+
+            {/* TITLE */}
+
             <div
               className="
-                aspect-[4/3]
-                overflow-hidden
-                rounded-xl
-                bg-[var(--foreground)]/[0.04]
+                flex
+                items-center
+                gap-4
               "
             >
-              <img
-                src={activeProject.image}
-                alt={activeProject.title}
+              <h3
                 className="
-                  h-full
-                  w-full
-                  object-cover
+                  text-2xl
+                  font-medium
+                  text-[var(--foreground)]/75
+                  transition-colors
+                  duration-300
+                  group-hover:text-[var(--foreground)]
+                  sm:text-3xl
+                  lg:text-4xl
+                "
+              >
+                <HoverWord
+                  text={project.title}
+                  className="tracking-[1px]"
+                />
+              </h3>
+
+              <ArrowUpRight
+                size={18}
+                strokeWidth={1.5}
+                className="
+                  -translate-x-2
+                  translate-y-2
+                  opacity-0
+                  text-[var(--foreground)]/50
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-0
+                  group-hover:translate-y-0
+                  group-hover:opacity-100
                 "
               />
             </div>
 
-            <div className="px-2 pb-1 pt-3">
-              <p
-                className="
-                  text-sm
-                  font-medium
-                  text-[var(--foreground)]
-                "
-              >
-                {activeProject.title}
-              </p>
+            <img src={project.image} alt={project.title} className="mt-5 rounded-sm block sm:hidden" />
 
-              <p
+            {/* DESCRIPTION */}
+
+            <div
+              className="
+                mt-3
+                max-w-xl
+                text-sm
+                leading-relaxed
+                text-[var(--foreground)]/40
+                sm:text-base
+              "
+            >
+              <ScrollReveal>
+                {project.description}
+              </ScrollReveal>
+            </div>
+
+            {/* ---------------------------------------------
+                MOBILE META
+            ---------------------------------------------- */}
+
+            <div
+              className="
+                mt-5
+                flex
+                items-center
+                gap-4
+                sm:hidden
+              "
+            >
+              <span
                 className="
-                  mt-1
-                  text-xs
-                  text-[var(--foreground)]/40
+                  text-[10px]
+                  uppercase
+                  tracking-[0.15em]
+                  text-[var(--foreground)]/30
                 "
               >
-                {activeProject.category}
-              </p>
+                {project.category}
+              </span>
+
+              <span
+                className="
+                  text-[10px]
+                  tabular-nums
+                  text-[var(--foreground)]/30
+                "
+              >
+                {project.year}
+              </span>
             </div>
-          </motion.div>
+
+            {/* ---------------------------------------------
+                ACTION HINTS
+                Only visible when hovering the row.
+            ---------------------------------------------- */}
+
+            <div
+              className="
+                mt-5
+                sm:hidden
+                items-center
+                gap-3
+                sm:opacity-0
+                transition-all
+                duration-300
+                group-hover:opacity-100
+                lg:flex
+              "
+            >
+              {project.github && (
+                <span
+                onClick={()=>window.open(project.github,"_blank")}
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-[10px]
+                    uppercase
+                    tracking-[0.12em]
+                    text-[var(--foreground)]/45
+                    hover:text-[#ff5a36]
+                    sm:pr-3
+                    pr-10
+                  "
+                >
+                  <Cat
+                    size={13}
+                    strokeWidth={1.5}
+                  />
+
+                  GitHub
+                </span>
+              )}
+
+              {true && (
+                <span
+                onClick={()=>{
+              onAskRica(`Summarize ${project.title} project.`)
+              setActiveProject(null)
+            }}
+                  className="
+                    inline-flex
+                    items-center
+                    gap-2
+                    text-[10px]
+                    uppercase
+                    tracking-[0.12em]
+                    text-[var(--foreground)]/45
+                    hover:text-[#ff5a36]
+                    pr-3
+                  "
+                >
+                  <Sparkles
+                    size={13}
+                    strokeWidth={1.5}
+                  />
+
+                  Ask Rica
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* -----------------------------------------------
+              DESKTOP META
+          ------------------------------------------------ */}
+
+          <div
+            className="
+              hidden
+              items-center
+              gap-8
+              pt-2
+              text-right
+              sm:flex
+            "
+          >
+            <span
+              className="
+                text-[10px]
+                uppercase
+                tracking-[0.15em]
+                text-[var(--foreground)]/30
+              "
+            >
+              {project.category}
+            </span>
+
+            <span
+              className="
+                text-[10px]
+                tabular-nums
+                tracking-[0.12em]
+                text-[var(--foreground)]/30
+              "
+            >
+              {project.year}
+            </span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* =====================================================
+        FOOTER LINK
+    ===================================================== */}
+
+    <div className="mt-12">
+      <a
+        href="#"
+        className="
+          group
+          inline-flex
+          items-center
+          cursor-none target-hand
+          gap-3
+          text-sm
+          text-[var(--foreground)]/45
+          transition-colors
+          hover:text-[var(--foreground)]
+        "
+      >
+        View all projects
+
+        <ArrowUpRight
+          size={15}
+          strokeWidth={1.5}
+          className="
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+            group-hover:-translate-y-1
+          "
+        />
+      </a>
+    </div>
+  </div>
+
+  {/* =======================================================
+      CURSOR PROJECT PREVIEW
+  ======================================================= */}
+
+ <AnimatePresence>
+  {activeProject && (
+    <motion.div
+      initial={{
+        opacity: 0,
+        scale: 0.96,
+      }}
+      animate={{
+        opacity: 1,
+        scale: 1,
+      }}
+      exit={{
+        opacity: 0,
+        scale: 0.97,
+      }}
+      transition={{
+        duration: 0.2,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      style={{
+        x: previewX,
+        y: previewY,
+      }}
+      onMouseEnter={() => {
+        cancelClose();
+
+
+    previewHoveredRef.current = true;
+
+    setIsPreviewHovered(true);
+  }}
+  onMouseLeave={() => {
+    previewHoveredRef.current = false;
+
+    setIsPreviewHovered(false);
+
+    scheduleClose();
+  }}
+  className="
+    fixed
+    left-0
+    top-0
+    z-[100]
+    -translate-x-5
+    translate-y-10
+    hidden
+    w-[340px]1
+    w-fit
+    lg:block
+  "
+>
+  <div
+    className="
+      overflow-hidden
+      rounded-2xl
+      border
+      border-[var(--foreground)]/[0.08]
+      bg-[var(--background)]/95
+      p-2
+      shadow-[0_25px_80px_rgba(0,0,0,0.12)]
+      backdrop-blur-xl
+    "
+  >
+    {/* ============================================
+        PROJECT IMAGE
+    ============================================ */}
+
+    <div
+      className="
+        relative
+        h-40
+        overflow-hidden
+        rounded-xl
+        bg-[var(--foreground)]/[0.04]
+      "
+    >
+      <img
+        src={activeProject.image}
+        alt={activeProject.title}
+        className="
+          h-full
+          w-full
+          object-cover
+          transition-transform
+          duration-700
+          ease-out
+          hover:scale-[1.03]
+        "
+      />
+
+      {/* SUBTLE IMAGE OVERLAY */}
+
+      {/* <div
+        className="
+          absolute
+          inset-0
+          bg-gradient-to-t
+          from-black/35
+          via-transparent
+          to-transparent
+        "
+      /> */}
+
+      {/* ========================================
+          IMAGE ACTIONS
+      ========================================= */}
+
+      <div
+        className="
+          absolute
+          bottom-3
+          left-3
+          right-3
+          flex
+          items-center
+          justify-between
+        "
+      >
+        {/* CATEGORY */}
+
+        <span
+          className="
+            rounded-full
+            bg-white/90
+            px-3
+            py-1.5
+            text-[9px]
+            font-medium
+            uppercase
+            tracking-[0.12em]
+            text-black
+            backdrop-blur-md
+          "
+        >
+          {activeProject.category}
+        </span>
+
+        {/* OPEN PROJECT */}
+
+        {activeProject.github && (
+          <a
+            href={activeProject.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              flex
+              h-9
+              w-9
+              items-center
+              justify-center
+              rounded-full
+              bg-white
+              text-black
+              shadow-sm
+              cursor-none target-hand
+              transition-all
+              duration-200
+              hover:scale-105
+              active:scale-95
+            "
+            aria-label={`Open ${activeProject.title}`}
+          >
+            <ArrowUpRight
+              size={16}
+              strokeWidth={1.8}
+            />
+          </a>
         )}
-      </AnimatePresence>
-    </section>
-  );
+      </div>
+    </div>
+
+    {/* ============================================
+        PROJECT INFORMATION
+    ============================================ */}
+
+    <div className="px-2 pb-2 pt-3">
+
+      <div
+        className="
+          flex
+          items-start
+          justify-between
+          gap-4
+        "
+      >
+        <div>
+          <p
+            className="
+              text-sm
+              font-medium
+              tracking-tight
+              text-[var(--foreground)]
+            "
+          >
+            {activeProject.title}
+          </p>
+
+          <p
+            className="
+              mt-1
+              max-w-[260px]
+              text-xs
+              leading-relaxed
+              text-[var(--foreground)]/40
+            "
+          >
+            {activeProject.description}
+          </p>
+        </div>
+
+        <span
+          className="
+            shrink-0
+            pt-1
+            text-[10px]
+            tabular-nums
+            text-[var(--foreground)]/35
+          "
+        >
+          {activeProject.year}
+        </span>
+      </div>
+
+      {/* ==========================================
+          CTA BUTTONS
+      ========================================== */}
+
+      <div
+        className="
+          mt-4
+          flex
+          items-center
+          gap-2
+        "
+      >
+        {/* GITHUB */}
+
+        {activeProject.github && (
+          <a
+            href={activeProject.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              inline-flex
+              h-9
+              items-center
+              gap-2
+              rounded-full
+              border
+              border-[var(--foreground)]/[0.1]
+              px-3.5
+              text-[10px]
+              font-medium
+              text-[var(--foreground)]/60
+              transition-all
+              duration-200
+              hover:border-[var(--foreground)]/20
+              hover:bg-[var(--foreground)]/[0.04]
+              hover:text-[var(--foreground)]
+              active:scale-[0.97]
+              cursor-none target-hand
+            "
+          >
+            <Cat
+              size={14}
+              strokeWidth={1.6}
+            />
+
+            GitHub
+          </a>
+        )}
+
+        {/* ASK RICA */}
+
+        {true && (
+          <button
+            onClick={()=>{
+              onAskRica(`Summarize ${activeProject.title} project.`)
+              setActiveProject(null)
+            }}
+            type="button"
+            className="
+              inline-flex
+              h-9
+              items-center
+              gap-2
+              rounded-full
+              bg-[var(--foreground)]
+              px-3.5
+              text-[10px]
+              font-medium
+              text-[var(--background)]
+              transition-all
+              duration-200
+              hover:scale-[1.02]
+              cursor-none target-hand
+              active:scale-[0.97]
+            "
+          >
+            <Sparkles
+              size={13}
+              strokeWidth={1.7}
+            />
+
+            Ask Rica AI
+          </button>
+        )}
+
+        {/* VIEW PROJECT */}
+
+        {activeProject.github && (
+          <a
+            href={activeProject.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              ml-auto
+              inline-flex
+              items-center
+              gap-1.5
+              text-[10px]
+              font-bold
+              px-7 py-2
+              text-[#ff5a36]
+              transition-colors
+              cursor-none target-hand
+              hover:text-[var(--foreground)]
+            "
+          >
+            View
+
+            <ArrowUpRight
+              size={13}
+              strokeWidth={1.6}
+            />
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</motion.div>
+
+
+)} </AnimatePresence>
+
+</section>
+
+);
 };
 
 export default Projects;
+
+
+
+
+// "use client";
+
+// import { useState } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { ArrowUpRight } from "lucide-react";
+// import HoverWord from "@/components/hoverword";
+// import ScrollReveal from "@/components/textreveal";
+
+
+// const Projects = () => {
+//   const [activeProject, setActiveProject] =
+//     useState<Project | null>(null);
+
+//   return (
+//     <section
+//       id="projects"
+//       className="
+//         relative
+//         w-full
+//         bg-[var(--background)]
+//         px-6
+//         py-28
+//         sm:px-10
+//         sm:py-36
+//         lg:px-16
+//         xl:px-24
+//       "
+//     >
+//       <div className="mx-auto w-full max-w-[1500px]">
+//         {/* ============================================
+//             SECTION HEADER
+//         ============================================= */}
+
+//         <div
+//           className="
+//             mb-20
+//             flex
+//             flex-col
+//             gap-8
+//             sm:mb-28
+//             lg:flex-row
+//             lg:items-end
+//             lg:justify-between
+//           "
+//         >
+//           {/* Left */}
+
+//           <div>
+//             <p
+//               className="
+//                 mb-5
+//                 text-[10px]
+//                 font-medium
+//                 uppercase
+//                 tracking-[0.18em]
+//                 text-[var(--foreground)]/35
+//               "
+//             >
+//               Selected work
+//             </p>
+
+//             <h2
+//               className="
+//                 max-w-2xl
+//                 text-5xl
+//                 font-medium
+//                 leading-[0.95]
+//                 tracking-[-0.055em]
+//                 text-[var(--foreground)]
+//                 sm:text-6xl
+//                 lg:text-7xl
+//               "
+//             >
+//               <HoverWord text="Things" />{" "}
+//               <HoverWord text="I've" />{" "}
+//               <HoverWord text="built." className="text-[#ff5a36]" />
+//             </h2>
+//           </div>
+
+//           {/* Right */}
+
+//           <div
+//             className="
+//               max-w-sm
+//               text-sm
+//               leading-relaxed
+//               text-[var(--foreground)]/45
+//               sm:text-base
+//             "
+//           >
+//             <ScrollReveal>
+//             A selection of products and experiences
+//             I've worked on — from ideas and interfaces
+//             to fully functional applications.
+//             </ScrollReveal>
+//           </div>
+//         </div>
+
+//         {/* ============================================
+//             PROJECT LIST
+//         ============================================= */}
+
+//         <div
+//           className="
+//             border-t
+//             border-[var(--foreground)]/[0.08]
+//           "
+//         >
+//           {projects.map((project) => (
+//             <a
+//               key={project.number}
+//               // href={project.href}
+//               onMouseEnter={() =>
+//                 setActiveProject(project)
+//               }
+//               onMouseLeave={() =>
+//                 setActiveProject(null)
+//               }
+//               className="
+//                 group
+//                 relative
+//                 grid
+//                 grid-cols-[auto_1fr_auto]
+//                 items-start
+//                 gap-6
+//                 border-b
+//                 border-[var(--foreground)]/[0.08]
+//                 py-8
+//                 transition-colors
+//                 duration-500
+//                 sm:gap-10
+//                 sm:py-10
+//               "
+//             >
+//               {/* Number */}
+
+//               <span
+//                 className="
+//                   pt-1
+//                   text-[10px]
+//                   tabular-nums
+//                   tracking-[0.1em]
+//                   text-[var(--foreground)]/30
+//                 "
+//               >
+//                 {project.number}
+//               </span>
+
+//               {/* Main Project Content */}
+
+//               <div>
+//                 {/* Title */}
+
+//                 <div className="flex items-center gap-4">
+//                   <h3
+//                     className="
+//                       text-2xl
+//                       font-medium
+//                       text-[var(--foreground)]/75
+//                       transition-colors
+//                       duration-300
+//                       group-hover:text-[var(--foreground)]
+//                       sm:text-3xl
+//                       lg:text-4xl
+//                     "
+//                   >
+//                     <HoverWord text={project.title} className="tracking-[1px]"/>
+//                   </h3>
+
+//                   <ArrowUpRight
+//                     size={18}
+//                     strokeWidth={1.5}
+//                     className="
+//                       opacity-0
+//                       -translate-x-2
+//                       translate-y-2
+//                       text-[var(--foreground)]/50
+//                       transition-all
+//                       duration-300
+//                       group-hover:translate-x-0
+//                       group-hover:translate-y-0
+//                       group-hover:opacity-100
+//                     "
+//                   />
+//                 </div>
+
+//                 {/* Description */}
+
+//                 <div
+//                   className="
+//                     mt-3
+//                     max-w-xl
+//                     text-sm
+//                     leading-relaxed
+//                     text-[var(--foreground)]/40
+//                     sm:text-base
+//                   "
+//                 >
+//                   <ScrollReveal>
+//                   {project.description}
+//                   </ScrollReveal>
+//                 </div>
+
+//                 {/* Mobile Category */}
+
+//                 <p
+//                   className="
+//                     mt-4
+//                     text-[10px]
+//                     uppercase
+//                     tracking-[0.15em]
+//                     text-[var(--foreground)]/30
+//                     sm:hidden
+//                   "
+//                 >
+//                   {project.category}
+//                 </p>
+//               </div>
+
+//               {/* Meta */}
+
+//               <div
+//                 className="
+//                   hidden
+//                   items-center
+//                   gap-8
+//                   pt-2
+//                   text-right
+//                   sm:flex
+//                 "
+//               >
+//                 <span
+//                   className="
+//                     text-[10px]
+//                     uppercase
+//                     tracking-[0.15em]
+//                     text-[var(--foreground)]/30
+//                   "
+//                 >
+//                   {project.category}
+//                 </span>
+
+//                 <span
+//                   className="
+//                     text-[10px]
+//                     tabular-nums
+//                     tracking-[0.12em]
+//                     text-[var(--foreground)]/30
+//                   "
+//                 >
+//                   {project.year}
+//                 </span>
+//               </div>
+//             </a>
+//           ))}
+//         </div>
+
+//         {/* ============================================
+//             FOOTER LINK
+//         ============================================= */}
+
+//         <div className="mt-12">
+//           <a
+//             className="
+//               group
+//               inline-flex
+//               items-center
+//               gap-3
+//               text-sm
+//               text-[var(--foreground)]/45
+//               transition-colors
+//               hover:text-[var(--foreground)]
+//             "
+//           >
+//             View all projects
+
+//             <ArrowUpRight
+//               size={15}
+//               strokeWidth={1.5}
+//               className="
+//                 transition-transform
+//                 duration-300
+//                 group-hover:translate-x-1
+//                 group-hover:-translate-y-1
+//               "
+//             />
+//           </a>
+//         </div>
+//       </div>
+
+//       {/* ============================================
+//           FLOATING PROJECT PREVIEW
+//       ============================================= */}
+
+//       <AnimatePresence>
+//         {activeProject && (
+//           <motion.div
+//             initial={{
+//               opacity: 0,
+//               scale: 0.96,
+//               y: 20,
+//             }}
+//             animate={{
+//               opacity: 1,
+//               scale: 1,
+//               y: 0,
+//             }}
+//             exit={{
+//               opacity: 0,
+//               scale: 0.96,
+//               y: 10,
+//             }}
+//             transition={{
+//               duration: 0.35,
+//               ease: [0.22, 1, 0.36, 1],
+//             }}
+//             className="
+//               pointer-events-none
+//               fixed
+//               right-[8vw]
+//               top-1/2
+//               z-50
+//               hidden
+//               w-[340px]
+//               -translate-y-1/2
+//               overflow-hidden
+//               rounded-2xl
+//               border
+//               border-[var(--foreground)]/[0.08]
+//               bg-[var(--background)]
+//               p-2
+//               shadow-2xl
+//               lg:block
+//             "
+//           >
+//             <div
+//               className="
+//                 aspect-[4/3]
+//                 overflow-hidden
+//                 rounded-xl
+//                 bg-[var(--foreground)]/[0.04]
+//               "
+//             >
+//               <img
+//                 src={activeProject.image}
+//                 alt={activeProject.title}
+//                 className="
+//                   h-full
+//                   w-full
+//                   object-cover
+//                 "
+//               />
+//             </div>
+
+//             <div className="px-2 pb-1 pt-3">
+//               <p
+//                 className="
+//                   text-sm
+//                   font-medium
+//                   text-[var(--foreground)]
+//                 "
+//               >
+//                 {activeProject.title}
+//               </p>
+
+//               <p
+//                 className="
+//                   mt-1
+//                   text-xs
+//                   text-[var(--foreground)]/40
+//                 "
+//               >
+//                 {activeProject.category}
+//               </p>
+//             </div>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </section>
+//   );
+// };
+
+// export default Projects;
 
 
 // "use client";

@@ -29,6 +29,11 @@ export default function Home() {
 const [chatScreen,setChatScreen] = useState(false)
 const [notification,setNotification] = useState<Notification1[]>([]);
 const [welcome,setWelcome] = useState<Boolean>(false)
+const [pendingQuestion, setPendingQuestion] = useState("");
+const askRica = (question: string) => {
+  setPendingQuestion(question);
+  setChatScreen(true);
+};
 useEffect(() => {
   setTimeout(() => {
     setWelcome(false)
@@ -44,7 +49,7 @@ useEffect(() => {
       {!welcome && <>
       <Header setResumeOpen={setResumeOpen}  />
       <Hero setResumeOpen={setResumeOpen} />
-      <ProjectShowcase />
+      <ProjectShowcase onAskRica={askRica}   />
       <About/>
       <Education/> 
       <Skills/>
@@ -60,7 +65,8 @@ useEffect(() => {
         pdfUrl="/resume.pdf"/>
       <Cursor/> 
       <AnimatePresence>
-        {chatScreen && <ChatBotScreen setChatScreen={setChatScreen}  />}
+        {chatScreen && <ChatBotScreen setChatScreen={setChatScreen}
+    initialQuestion={pendingQuestion}  />}
       </AnimatePresence>
       <SmoothScroll />
       <CustomScrollbar />

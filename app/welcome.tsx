@@ -112,7 +112,7 @@ bg-[var(--foreground)]/20
         >
           <span>Pranay Prasad</span>
 
-          <span>Portfolio 2026</span>
+          <span>2026</span>
         </motion.div>
 
         {/* Center content */}

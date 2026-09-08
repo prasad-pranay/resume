@@ -179,6 +179,23 @@ const Footer = () => {
         >
           PRANAY
         </div>
+        <div
+          className="
+            bricolage-grotesque
+            select-none
+            text-[18vw]
+            font-medium
+            leading-[0.7]
+            tracking-[-0.09em]
+            text-[var(--foreground)]
+            sm:text-[17vw]
+            text-right
+            mt-10
+            pr-5
+          "
+        >
+          PRASAD
+        </div>
       </motion.div>
 
       {/* =====================================================
