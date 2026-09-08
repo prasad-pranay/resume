@@ -270,6 +270,7 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
         z-[9999]
         pointer-events-none
         overflow-y-auto
+        hide-scrollbar
         overscroll-contain
       `}
     >
@@ -289,8 +290,8 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
           rounded-xl
           border
           border-black/10
-          dark:border-[#868e96]
-          bg-white
+          dark:border-white/10
+          bg-[var(--background)]
           shadow-[0_25px_80px_rgba(0,0,0,0.18)]
           origin-center
 
@@ -324,7 +325,7 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
             px-4
             border-b
             border-black/10
-            bg-white dark:bg-[#343a40]
+            bg-[var(--background)]
             cursor-grab
             select-none
           "
@@ -372,7 +373,8 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
                 text-gray-400
                 transition-all
                 duration-200
-                hover:text-black
+                hover:text-black 
+                cursor-none target-hand
                 hover:bg-gray-100
               "
             >
@@ -387,6 +389,7 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
                 rounded-md
                 text-gray-400
                 transition-all
+                cursor-none target-hand
                 duration-200
                 hover:text-black
                 hover:bg-gray-100
@@ -405,6 +408,7 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
                 transition-all
                 duration-200
                 hover:text-black
+                cursor-none target-hand
                 hover:bg-gray-100
               "
             >
@@ -419,7 +423,8 @@ const ResumeViewer: React.FC<ResumeViewerProps> = ({
             relative
             h-[calc(100%-3rem)]
             overflow-auto
-            bg-gray-100 dark:bg-[#495057]
+            bg-[var(--background)]/30
+            hide-scrollbar
             px-5
             py-6
           "

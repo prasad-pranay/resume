@@ -1,32 +1,13 @@
 import type { Metadata, Viewport } from "next";
 
 import {
-  Bricolage_Grotesque,
-  Encode_Sans_Expanded,
-  Inter
+  Quicksand
 } from "next/font/google";
 
 import "./globals.css";
 
-// import SmoothScroll from "@/components/SmoothScroll";
-// import CustomScrollbar from "@/components/Scrollbar";
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "700",
-});
-
-const encodeSans = Encode_Sans_Expanded({
-  variable: "--font-encode",
-  subsets: ["latin"],
-  display: "swap",
-  weight: "600",
-});
-
-const inter = Inter({
-  variable: "--font-inter",
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
   subsets: ["latin"],
   display: "swap",
 });
@@ -202,9 +183,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       className={`
         h-full
         antialiased
-        ${bricolage.variable}
-        ${encodeSans.variable}
-        ${inter.variable}
+        dark
+        ${quicksand.variable}
       `}
     >
       <head> 

@@ -70,7 +70,6 @@ export default function HoverWord({
         relative
         inline-block
         cursor-none
-        overflow-hidden
       "
     >
 
