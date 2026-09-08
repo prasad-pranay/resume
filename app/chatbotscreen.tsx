@@ -244,7 +244,7 @@ z-[12000]
       h-[100dvh]
       w-[100dvw]
   rounded-sm
-      sm:h-[720px]
+      sm:h-[70vh]
       sm:max-h-[85dvh]
       sm:w-[520px]
 
@@ -253,77 +253,27 @@ z-[12000]
       overflow-hidden
 
       bg-[var(--background)]
-
-      sm:border
-      sm:border-[var(--foreground)]/10
-
-      sm:shadow-[0_30px_100px_rgba(0,0,0,0.12)]
+      backdrop-blur-lg
+        border
+        border-[var(--foreground)]/20
+        rounded-sm
     "
       >
-        {/* ─────────────────────────────────────────
-        Header
-    ───────────────────────────────────────── */}
-
-        <header
-        data-lenis-prevent
-          className="
-        relative
-        flex
-        shrink-0
-        items-center
-        justify-between
-
-        border-b
-        border-[var(--foreground)]/10
-
-        px-6
-        py-5
-      "
-        >
-          <div>
-            <p
-              className="
-            bricolage-grotesque
-            text-sm
-            font-medium
-            tracking-[-0.02em]
-            text-[var(--foreground)]
-          "
-            >
-              RICA
-            </p>
-
-            <p
-              className="
-            mt-1
-            text-[9px]
-            uppercase
-            tracking-[0.18em]
-            text-[var(--foreground)]/40
-          "
-            >
-              AI Guide · Pranay Prasad
-            </p>
-          </div>
-
-          <button
+         <button
             onClick={() => setChatScreen(false)}
             className="
+            absolute top-0 right-0
+            rounded-bl-3xl
           group
           flex
-          size-9
+          p-5
           items-center
           justify-center
 
-          border
-          border-[var(--foreground)]/10
-
-          text-[var(--foreground)]/50
+          text-[#ff5a36]
 
           transition-all
           duration-300
-
-          hover:border-[#ff5a36]
           hover:bg-[#ff5a36]
           hover:text-white
 
@@ -342,7 +292,6 @@ z-[12000]
           "
             />
           </button>
-        </header>
 
         {/* ─────────────────────────────────────────
         Chat area
@@ -393,20 +342,6 @@ z-[12000]
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
-                <p
-                  className="
-                mb-5
-
-                text-[10px]
-                uppercase
-                tracking-[0.2em]
-
-                text-[#ff5a36]
-              "
-                >
-                  Meet Rica
-                </p>
-
                 <h2
                   className="
                 bricolage-grotesque
@@ -537,7 +472,7 @@ z-[12000]
                     delay: 0.25,
                     duration: 0.5,
                   }}
-                  className="mt-12"
+                  className="mt-12 mb-15"
                 >
                   <div
                     className="
@@ -891,23 +826,19 @@ z-[12000]
 
         <footer
           className="
+          absolute 
+          bottom-0 sm:bottom-3 
+          left-0 
+          w-full sm:w-[90%] sm:mx-[5%]
+          rounded sm:rounded-xl
         shrink-0
 
-        border-t
+        border-1
         border-[var(--foreground)]/10
-
-        px-5
-        py-4
-        sm:px-6
+        focus-within:border-[var(--foreground)]/20
+        bg-[var(--background)]
       "
         >
-          <div
-            className="
-          flex
-          items-end
-          gap-3
-        "
-          >
             <textarea
               ref={textareaRef}
               value={input}
@@ -921,16 +852,17 @@ z-[12000]
               placeholder="Ask Rica something..."
               rows={1}
               className="
+  
             min-h-[30px]
-            max-h-[120px]
-
+              w-full
             flex-1
 
             resize-none
 
             bg-transparent
 
-            py-1
+            py-4
+            px-5
 
             text-sm
 
@@ -946,6 +878,12 @@ z-[12000]
             target-text
           "
             />
+  <div className="absolute h-full top-0 right-2 flex items-center gap-3">
+
+ 
+            <button onClick={()=>setInput("")} className={`text-[var(--foreground)]/60 transition duration-300 ${input.length>0?"opacity-100":"opacity-0"}`}>
+                <X className="size-5"/>
+            </button>
 
             <button
               type="button"
@@ -971,7 +909,7 @@ z-[12000]
             rounded-sm
 
             transition-all
-            duration-300
+            duration-500
 
             cursor-none
             target-hand
@@ -1017,37 +955,8 @@ z-[12000]
                 />
               )}
             </button>
-          </div>
 
-          {/* <div
-        className="
-          mt-3
-
-          flex
-          items-center
-          justify-between
-        "
-      >
-        <p
-          className="
-            text-[9px]
-
-            text-[var(--foreground)]/25
-          "
-        >
-          Press Enter to send
-        </p>
-
-        <p
-          className="
-            text-[9px]
-
-            text-[var(--foreground)]/25
-          "
-        >
-          RICA · AI PORTFOLIO GUIDE
-        </p>
-      </div> */}
+             </div>
         </footer>
       </motion.div>
 

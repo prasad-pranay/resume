@@ -245,6 +245,7 @@ const WatcherBot = ({
 
   return (
     <div
+    onClick={()=>{window.location.hash = "bot"}}
       className="
         fixed
         bottom-6
