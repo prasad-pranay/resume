@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "Portfolio of Pranay Prasad — a Full Stack Developer building modern, interactive, and intelligent web experiences with Next.js, React, TypeScript, and AI.",
+    "Hey, I'm Pranay Prasad — a Full Stack Developer who loves building things that feel as good as they work. Welcome to my portfolio.",
 
   applicationName: "Pranay Prasad",
 
