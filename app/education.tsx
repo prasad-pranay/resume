@@ -114,7 +114,6 @@ export default function Education() {
       className="
         relative
         w-full
-        bg-[var(--background)]
         px-6
         py-28
         sm:px-10

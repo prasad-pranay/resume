@@ -66,7 +66,7 @@ useEffect(() => {
       <Cursor/> 
       <AnimatePresence>
         {chatScreen && <ChatBotScreen setChatScreen={setChatScreen}
-    initialQuestion={pendingQuestion}  />}
+    initialQuestion={pendingQuestion} setPendingQuestion={setPendingQuestion}   />}
       </AnimatePresence>
       <SmoothScroll />
       <CustomScrollbar />

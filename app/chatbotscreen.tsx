@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import VoiceDialogCard from "@/components/voicecard";
 import HoverWord from "@/components/hoverword";
+import RichText from "@/components/Richtext";
 
 type Message = {
   id: string;
@@ -51,11 +52,13 @@ const initialSuggestions: Suggestion[] = [
 interface ChatBotScreenProps {
   setChatScreen: React.Dispatch<React.SetStateAction<boolean>>;
   initialQuestion:String;
+  setPendingQuestion: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function ChatBotScreen({
   setChatScreen,
-  initialQuestion
+  initialQuestion,
+  setPendingQuestion
 }: ChatBotScreenProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [welcomeMessage, setWelcomeMessage] = useState<Message | null>(null);
@@ -78,6 +81,7 @@ export default function ChatBotScreen({
     if(initialQuestion!="" && !hasSentInitialQuestion.current ){
       hasSentInitialQuestion.current = true;
       sendMessage(`${initialQuestion}`)
+      setPendingQuestion("")
     }
   }, [initialQuestion])
   
@@ -151,19 +155,43 @@ export default function ChatBotScreen({
       createdAt: new Date(),
     };
 
+    const formattedMessages = messages.map(({ role, content }) => ({
+        role,
+        content,
+      }));
+
     setMessages((prev) => [...prev, userMessage]);
 
     setInput("");
     setIsLoadingResponse(true);
 
     try {
-      const res = await fetch(
-        `https://clasher.pythonanywhere.com/ask?question=${encodeURIComponent(
-          text.trim()
-        )}`
-      );
+      // const res = await fetch(
+      //   `https://clasher.pythonanywhere.com/ask?question=${encodeURIComponent(
+      //     text.trim()
+      //   )}`
+      // );
+const res = await fetch(
+  // "http://localhost:5000/api/chat",
+  "https://clasher.pythonanywhere.com/api/chat",
+  {
+    method: "POST",
 
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      message: text.trim(),
+      history: formattedMessages,
+    }),
+  }
+);
       const data = await res.json();
+
+      console.log("this si the data")
+      console.log(data)
+      console.log("this si the data ")
 
       setMessages((prev) => [
         ...prev,
@@ -240,6 +268,7 @@ export default function ChatBotScreen({
           ease: [0.22, 1, 0.36, 1],
         }}
         className="
+        user-select-auto
 fixed
 z-[12000]
 
@@ -739,7 +768,7 @@ z-[12000]
                         </span>
                       </div>
 
-                      <p
+                      <div
                         className="
                       whitespace-pre-wrap
 
@@ -751,8 +780,10 @@ z-[12000]
                       text-[var(--foreground)]/75
                     "
                       >
-                        {message.content}
-                      </p>
+                        <RichText text={message.content} />
+                        {/* {message.content} */}
+                        
+                      </div>
                     </div>
                   ) : (
                     /* User */

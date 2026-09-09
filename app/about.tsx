@@ -13,7 +13,6 @@ const About = () => {
       className="
         relative
         w-full
-        bg-[var(--background)]
         px-6
         py-28
         sm:px-10
